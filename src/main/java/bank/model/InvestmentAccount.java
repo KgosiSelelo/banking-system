@@ -2,6 +2,8 @@ package bank.model;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.util.List;
 
 /** Pays 5% monthly interest. Needs BWP500.00 to open. Withdrawals allowed. */
 public class InvestmentAccount extends Account implements InterestBearing {
@@ -18,6 +20,12 @@ public class InvestmentAccount extends Account implements InterestBearing {
                             + MIN_OPENING_DEPOSIT);
         }
         deposit(initialDeposit, "Opening deposit");
+    }
+
+    /** Used by the database layer to rebuild a saved account. */
+    public InvestmentAccount(Customer owner, String branch, String accountNumber,
+                             LocalDate dateOpened, BigDecimal balance, List<Transaction> history) {
+        super(owner, branch, accountNumber, dateOpened, balance, history);
     }
 
     @Override

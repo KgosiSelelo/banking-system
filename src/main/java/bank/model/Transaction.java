@@ -23,7 +23,16 @@ public final class Transaction {
         this.balanceAfter = balanceAfter;
         this.note = note;
     }
-
+    /** Used by the database layer to rebuild a saved transaction. */
+    public Transaction(String transactionId, TransactionType type, BigDecimal amount,
+                       LocalDateTime timestamp, BigDecimal balanceAfter, String note) {
+        this.transactionId = transactionId;
+        this.type = type;
+        this.amount = amount;
+        this.timestamp = timestamp;
+        this.balanceAfter = balanceAfter;
+        this.note = note;
+    }
     public String getTransactionId() { return transactionId; }
     public TransactionType getType() { return type; }
     public BigDecimal getAmount() { return amount; }

@@ -33,7 +33,24 @@ public abstract class Account {
         this.accountNumber = "ACC" + (nextNumber++);
         owner.addAccount(this);
     }
+    /** Used by the database layer to rebuild an account that already exists. */
+    protected Account(Customer owner, String branch, String accountNumber,
+                      LocalDate dateOpened, BigDecimal balance, List<Transaction> history) {
+        this.owner = owner;
+        this.branch = branch;
+        this.accountNumber = accountNumber;
+        this.dateOpened = dateOpened;
+        this.balance = balance.setScale(2, RoundingMode.HALF_UP);
+        this.transactions.addAll(history);
+        owner.addAccount(this);
+    }
 
+    /** Keeps new account numbers unique after existing accounts are loaded. */
+    public static synchronized void syncNextNumber(int next) {
+        if (next > nextNumber) {
+            nextNumber = next;
+        }
+    }
     /** Each account type decides its own withdrawal rules. */
     public abstract void withdraw(BigDecimal amount);
 

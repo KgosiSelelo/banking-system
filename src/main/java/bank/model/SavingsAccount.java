@@ -2,6 +2,8 @@ package bank.model;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.util.List;
 
 /** Pays 0.05% monthly interest. No withdrawals allowed. */
 public class SavingsAccount extends Account implements InterestBearing {
@@ -11,7 +13,11 @@ public class SavingsAccount extends Account implements InterestBearing {
     public SavingsAccount(Customer owner, String branch) {
         super(owner, branch);
     }
-
+    /** Used by the database layer to rebuild a saved account. */
+    public SavingsAccount(Customer owner, String branch, String accountNumber,
+                          LocalDate dateOpened, BigDecimal balance, List<Transaction> history) {
+        super(owner, branch, accountNumber, dateOpened, balance, history);
+    }
     @Override
     public void withdraw(BigDecimal amount) {
         throw new UnsupportedOperationException(

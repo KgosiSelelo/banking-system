@@ -37,6 +37,23 @@ public class Customer {
         this.passwordHash = hash(password, saltBytes);
     }
 
+    private Customer(String customerId, String firstName, String surname, String address,
+                     String username, String salt, String passwordHash) {
+        this.customerId = customerId;
+        this.firstName = firstName;
+        this.surname = surname;
+        this.address = address;
+        this.username = username;
+        this.salt = salt;
+        this.passwordHash = passwordHash;
+    }
+
+    /** Used by the database layer to rebuild a saved customer. */
+    public static Customer restore(String customerId, String firstName, String surname,
+                                   String address, String username,
+                                   String salt, String passwordHash) {
+        return new Customer(customerId, firstName, surname, address, username, salt, passwordHash);
+    }
     /** Passwords are never stored in plain text. */
     private static String hash(String password, byte[] saltBytes) {
         try {
@@ -77,6 +94,8 @@ public class Customer {
     public String getSurname() { return surname; }
     public String getAddress() { return address; }
     public String getUsername() { return username; }
+    public String getSalt() { return salt; }
+    public String getPasswordHash() { return passwordHash; }
     public void setAddress(String address) { this.address = address; }
 
     @Override
